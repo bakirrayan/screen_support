@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Three-screen desk stand</title>
+<meta name="description" content="An open fabrication package for a steel stand that holds three 32-inch screens. Explore the 3D assembly, move its joints and download the drawings, laser files and 3D prints.">
+<meta property="og:title" content="Three-screen desk stand">
+<meta property="og:description" content="Steel stand for three 32-inch screens: 3D assembly, drawings, laser DXF, STL prints.">
+<meta property="og:image" content="files/Images/Vue_ensemble_3_ecrans.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232b3340'/%3E%3Crect x='3' y='8' width='8' height='7' fill='%233a6ea5'/%3E%3Crect x='12' y='6' width='8' height='7' fill='%233a6ea5'/%3E%3Crect x='21' y='8' width='8' height='7' fill='%233a6ea5'/%3E%3Crect x='15' y='13' width='2' height='13' fill='%23ecebe6'/%3E%3Crect x='11' y='25' width='10' height='2' fill='%23ecebe6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<script type="module" src="app.js"></script>
+</head>
+<body>
+<a class="skip" href="#build">Skip to the build files</a>
+
+<header class="bar">
+  <a class="mark" href="#top" aria-label="Back to the 3D view">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect x="3" y="8" width="8" height="7"/><rect x="12" y="6" width="8" height="7"/><rect x="21" y="8" width="8" height="7"/><rect class="m" x="15" y="13" width="2" height="13"/><rect class="m" x="11" y="25" width="10" height="2"/></svg>
+    <span>Support écrans</span>
+  </a>
+  <nav aria-label="Sections">
+    <a href="#specs">Specs</a>
+    <a href="#gallery">Renders</a>
+    <a href="#build">Files</a>
+    <a href="#checks">Before you build</a>
+  </nav>
+</header>
+
+<main id="top">
+  <section class="stage" aria-label="Interactive 3D assembly">
+    <div id="viewer" class="viewer" tabindex="0" aria-label="3D model. Drag to orbit, scroll or pinch to zoom, click a part to identify it."></div>
+
+    <div class="loading" id="loading" role="status">
+      <div class="loading-track"><div class="loading-fill" id="loadingFill"></div></div>
+      <p id="loadingText">Loading the assembly</p>
+    </div>
+
+    <div class="hero-copy">
+      <h1>Three&#8209;screen<br>desk stand</h1>
+      <p>A powder-coated steel stand for three 32" screens, clamped to the desk edge. Every pivot below is the real joint from the CAD model: move them, pull the assembly apart, click any part.</p>
+    </div>
+
+    <aside class="panel" id="panel" aria-label="Viewer controls">
+      <button class="panel-toggle" id="panelToggle" aria-expanded="true" aria-controls="panelBody">Controls</button>
+      <div class="panel-body" id="panelBody">
+        <fieldset class="presets">
+          <legend>Layout</legend>
+          <div class="seg" role="group">
+            <button data-preset="row" aria-pressed="false">Straight</button>
+            <button data-preset="wrap" aria-pressed="true">Wrap</button>
+            <button data-preset="two" aria-pressed="false">Two screens</button>
+            <button data-preset="portrait" aria-pressed="false">Portrait</button>
+          </div>
+        </fieldset>
+
+        <fieldset class="joints">
+          <legend>Joints <span class="hint">mirrored left and right</span></legend>
+          <label><span>Arm swing at the mast</span><output data-for="swing">0°</output><input type="range" data-joint="swing" min="-60" max="60" step="1" value="0"></label>
+          <label><span>Elbow</span><output data-for="elbow">0°</output><input type="range" data-joint="elbow" min="-150" max="150" step="1" value="0"></label>
+          <label><span>Head turn</span><output data-for="head">0°</output><input type="range" data-joint="head" min="-90" max="90" step="1" value="0"></label>
+          <label><span>Tilt</span><output data-for="tilt">0°</output><input type="range" data-joint="tilt" min="-15" max="20" step="1" value="0"></label>
+          <label><span>Rotation to portrait</span><output data-for="rot">0°</output><input type="range" data-joint="rot" min="0" max="90" step="1" value="0"></label>
+        </fieldset>
+
+        <fieldset class="view">
+          <legend>View</legend>
+          <label class="explode"><span>Pull apart</span><input type="range" id="explode" min="0" max="1" step="0.01" value="0"></label>
+          <div class="toggles">
+            <label class="check"><input type="checkbox" id="showScreens" checked> Screens</label>
+            <label class="check"><input type="checkbox" id="showEdges" checked> Edges</label>
+            <label class="check"><input type="checkbox" id="autoSpin"> Turntable</label>
+          </div>
+          <div class="cams" role="group" aria-label="Camera">
+            <button data-cam="back">Behind</button>
+            <button data-cam="front">Front</button>
+            <button data-cam="top">Top</button>
+            <button data-cam="clamp">Clamp</button>
+            <button data-cam="head">VESA head</button>
+          </div>
+        </fieldset>
+      </div>
+    </aside>
+
+    <div class="pick" id="pick" hidden aria-live="polite">
+      <p class="pick-comp" id="pickComp"></p>
+      <p class="pick-body" id="pickBody"></p>
+      <p class="pick-mat" id="pickMat"></p>
+      <button class="pick-close" id="pickClose" aria-label="Clear selection">×</button>
+    </div>
+    <div class="tip" id="tip" hidden></div>
+  </section>
+
+  <section id="specs" class="specs">
+    <div class="wrap">
+      <h2>What it is</h2>
+      <div class="specs-grid">
+        <p class="lede">A mast clamped to the desk carries two folding arms and a short centre arm. Each screen sits on a VESA head that turns, tilts and rotates to portrait, and lifts off a quick-release hook. Steel parts are laser-cut, bent and welded; bushings, washers and caps are 3D-printed.</p>
+        <table class="titleblock">
+          <caption>Key figures from the CAD model and load sheet</caption>
+          <tbody>
+            <tr><th scope="row">Screens</th><td>3 × 32", VESA 100 (75 with four extra holes)</td></tr>
+            <tr><th scope="row">Max screen mass</th><td>9 kg each</td></tr>
+            <tr><th scope="row">Mounting</th><td>Desk clamp 10–85 mm, or Ø12 grommet</td></tr>
+            <tr><th scope="row">Reach</th><td>765 mm from mast to each outer head</td></tr>
+            <tr><th scope="row">Assembly</th><td>16 parts, 14 joints, 4 configurations</td></tr>
+            <tr><th scope="row">Pivots</th><td>M8, tightened to 6–8 N·m with nylon friction pads</td></tr>
+            <tr><th scope="row">Mast stress, worst case</th><td>≈ 22 MPa on S235, safety factor ≈ 10</td></tr>
+            <tr><th scope="row">Finish</th><td>Powder coat RAL 9016 traffic white</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="chain-title">How it moves</h3>
+      <ol class="chain">
+        <li><b>Mast pivot</b><span>Each arm swings around a vertical M8 pin in the mast collar.</span></li>
+        <li><b>Elbow</b><span>The outer arm folds back, so the side screens can close in for a two-screen layout.</span></li>
+        <li><b>Head turn</b><span>The VESA head turns at the end of the arm to angle the screen toward you.</span></li>
+        <li><b>Tilt</b><span>A friction joint with a thumb knob tilts the screen forward and back.</span></li>
+        <li><b>Rotation</b><span>The plate spins a quarter turn for portrait, then hooks on the quick-release bracket.</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="gallery" class="gallery">
+    <div class="wrap">
+      <h2>Renders</h2>
+      <div class="shots">
+        <figure class="wide"><img src="files/Images/Vue_ensemble_3_ecrans.png" alt="The stand from behind holding three screens in a gentle arc" loading="lazy" width="1600" height="1000"><figcaption>Three screens in the wrap layout</figcaption></figure>
+        <figure><img src="files/Images/Animation_3_vers_2_ecrans.gif" alt="Animation: the centre screen comes off and the side screens fold inward" loading="lazy"><figcaption>From three screens to two</figcaption></figure>
+        <figure><img src="files/Images/Animation_rotation_inclinaison.gif" alt="Animation: a screen tilting and rotating to portrait" loading="lazy"><figcaption>Tilt and portrait rotation</figcaption></figure>
+        <figure><img src="files/Images/Detail_tete_VESA.png" alt="Close-up of the VESA head with tilt knob and quick-release plate" loading="lazy"><figcaption>VESA head</figcaption></figure>
+        <figure><img src="files/Images/Detail_collier_bras.png" alt="Close-up of the collar where the arms meet the mast" loading="lazy"><figcaption>Mast collar</figcaption></figure>
+        <figure><img src="files/Images/Detail_etau.png" alt="Close-up of the desk clamp" loading="lazy"><figcaption>Desk clamp</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="build" class="build">
+    <div class="wrap">
+      <h2>Build files</h2>
+      <p class="intro">Everything a workshop needs. The drawings and sheets are in French, the shop language. Steel parts are numbered A01–A16, laser profiles T01–T14 and printed parts P01–P13. The suffix <code>_x4</code> in a file name is the quantity to make.</p>
+      <div id="files" class="files">
+        <p class="files-empty">The file list is built when the site is deployed. Run <code>tools/build-site.sh</code> to preview it locally.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="checks" class="checks">
+    <div class="wrap">
+      <h2>Before you build</h2>
+      <ol>
+        <li><b>Pick the mounting.</b> Clamp for desks 10–85 mm thick, or grommet through a Ø12 hole with plate A15. The Ø10.5 hole in A01 is only for the grommet.</li>
+        <li><b>Tap the thumbscrew thread.</b> Tap M6 in A13; A12 keeps its Ø6.5 clearance hole.</li>
+        <li><b>Retain the rotation pin.</b> Add a DIN 6799 circlip groove on the Ø8 pin, or an M5 screw in its end. Neither is modelled.</li>
+        <li><b>VESA 75 screens</b> need four Ø5.5 holes on a 75 mm square in A12.</li>
+        <li><b>Set the pivot friction.</b> Tighten the M8 pivots to 6–8 N·m, until each arm holds its screen. Nylon washers and pads wear and are replaceable.</li>
+        <li><b>Leave room behind the desk.</b> In two-screen mode the screens move 90 mm forward and the elbows go about 210 mm behind the desk edge.</li>
+        <li><b>Check the load.</b> One 9 kg screen at 765 mm stresses the mast to about 22 MPa. The <i>Charge</i> sheet in the bill of materials has the calculation.</li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>Designed in SolidCraft. The 3D view is generated from <code>STEP/Support_ecrans_assemblage.step</code>.</p>
+  </div>
+</footer>
+</body>
+</html>

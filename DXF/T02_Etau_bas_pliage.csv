@@ -1,0 +1,2 @@
+body,rule,thickness_mm,k_factor,bend,angle_deg,direction,radius_mm,allowance_mm,length_mm,start_x_mm,start_y_mm,end_x_mm,end_y_mm,included_angle_deg
+"Etau_bas","Acier 5mm",5.000000000,0.440000000,1,90.000000000,up,5.000000000,11.309733553,80.000000000,40.000000000,5.654866776,-40.000000000,5.654866776,90.000000000
